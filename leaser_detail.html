@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaser Details</title>
+    <style>
+        /* ваші стилі */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Leaser Details: {{ leaser.name }}</h1>
+
+    <div class="leaser-info">
+        <p><strong>Name:</strong> {{ leaser.name }}</p>
+        <p><strong>Contact Info:</strong> {{ leaser.contacts }}</p>
+        <p><strong>Email:</strong> {{ leaser.email }}</p>
+    </div>
+
+    <h2>Items Offered by This Leaser</h2>
+    <ul class="items-list">
+        {% for item in items %}
+        <li>
+            <a href="{{ url_for('item_detail', item_id=item.id) }}">
+                {{ item.name }} - {{ item.description }}
+            </a>
+        </li>
+        {% else %}
+        <li>No items listed by this leaser.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Contracts with This Leaser</h2>
+    <ul class="contracts-list">
+        {% for contract in contracts %}
+        <li>
+            <a href="{{ url_for('contract_detail', contract_id=contract.id) }}">
+                Contract ID: {{ contract.id }} - Status: {{ contract.status }}
+            </a>
+        </li>
+        {% else %}
+        <li>No contracts with this leaser.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('leasers') }}">Back to Leasers</a>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+

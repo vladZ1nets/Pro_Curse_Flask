@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .result-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-item h3 {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+        }
+        .result-item p {
+            color: #555;
+            margin: 5px 0;
+        }
+        .result-item .price {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        .buttons a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Search Results</h2>
+
+<div class="results-container">
+    {% if results %}
+        {% for result in results %}
+            <div class="result-item">
+                <h3>{{ result.name }}</h3>
+                <p>{{ result.description }}</p>
+                <p><strong>Price per Hour:</strong> ${{ result.price_hour }}</p>
+                <p><strong>Price per Day:</strong> ${{ result.price_day }}</p>
+                <p><strong>Price per Week:</strong> ${{ result.price_week }}</p>
+                <p><strong>Price per Month:</strong> ${{ result.price_month }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No results found. Please try a different search.</p>
+    {% endif %}
+</div>
+
+<div class="buttons">
+    <a href="/search">Back to Search</a>
+    <a href="/">Back to Home</a>
+</div>
+
+</body>
+</html>

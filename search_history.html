@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .search-history-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .search-history-list li {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .search-history-list li:last-child {
+            border-bottom: none;
+        }
+        .search-history-list p {
+            color: #555;
+            margin: 5px 0;
+        }
+        .search-history-list button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .search-history-list button:hover {
+            background-color: #c0392b;
+        }
+        form {
+            margin: 10px 0;
+        }
+        .clear-history-button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .clear-history-button:hover {
+            background-color: #2980b9;
+        }
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Your Search History</h1>
+
+    {% if history %}
+    <ul class="search-history-list">
+        {% for entry in history %}
+        <li>
+            <p><strong>Search Query:</strong> {{ entry.search_text }}</p>
+            <p><strong>Timestamp:</strong> {{ entry.timestamp }}</p>
+            <form action="{{ url_for('search_history') }}" method="POST">
+                <input type="hidden" name="search_id" value="{{ entry.id }}">
+                <button type="submit" name="action" value="delete">Delete This Search</button>
+            </form>
+            <hr>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('search_history') }}" method="POST">
+        <button type="submit" name="action" value="clear" class="clear-history-button">Clear All Search History</button>
+    </form>
+
+    {% else %}
+    <p>You have no search history yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('profile') }}">Back to Profile</a>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile and Item Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="submit"], button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            margin-top: 10px;
+            display: block;
+        }
+        a:hover {
+            color: #4CAF50;
+        }
+        .form-section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Profile Section -->
+    <div class="form-section">
+        <h1>{{ fullname }}'s Profile</h1>
+        <form method="POST">
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name" value="{{ fullname }}" required>
+            <button type="submit">Update Profile</button>
+        </form>
+        <br>
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+        <br>
+        <a href="{{ url_for('favorites') }}">Go to Favorites</a>
+        <br>
+        <a href="{{ url_for('search_history') }}">Search History</a>
+        <br>
+        <a href="{{ url_for('contracts') }}">My Contracts</a>
+    </div>
+
+    <!-- Item Upload Section -->
+    <div class="form-section">
+        <h1>Upload New Item</h1>
+        <form action="/items" method="post">
+            <label for="name">Item Name:</label>
+            <input type="text" name="name" id="name" required><br>
+
+            <label for="photo">Item Photo URL:</label>
+            <input type="text" name="photo" id="photo" required><br>
+
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description" required><br>
+
+            <label for="price_hour">Price per Hour:</label>
+            <input type="text" name="price_hour" id="price_hour" required><br>
+
+            <label for="price_day">Price per Day:</label>
+            <input type="text" name="price_day" id="price_day" required><br>
+
+            <label for="price_week">Price per Week:</label>
+            <input type="text" name="price_week" id="price_week" required><br>
+
+            <label for="price_month">Price per Month:</label>
+            <input type="text" name="price_month" id="price_month" required><br>
+
+            <input type="submit" value="Submit Item">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+

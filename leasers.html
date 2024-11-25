@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leasers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .leasers-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .leasers-list li {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .leasers-list li:hover {
+            background-color: #f0f0f0;
+        }
+        .leasers-list a {
+            text-decoration: none;
+            color: #3498db;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .leasers-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Leasers</h1>
+
+    <ul class="leasers-list">
+        {% for leaser in leasers %}
+        <li>
+            <a href="{{ url_for('leaser_detail', leaser_id=leaser.id) }}">
+                {{ leaser.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
+

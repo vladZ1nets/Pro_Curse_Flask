@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .contract-detail {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .contract-detail p {
+            font-size: 1.2em;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .contract-detail p strong {
+            color: #3498db;
+        }
+
+        .back-link {
+            font-size: 1.1em;
+            color: #3498db;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contract Details</h1>
+
+        <div class="contract-detail">
+            <p><strong>Contract ID:</strong> {{ contract.id }}</p>
+            <p><strong>Text:</strong> {{ contract.text }}</p>
+            <p><strong>Start Date:</strong> {{ contract.start_date }}</p>
+            <p><strong>End Date:</strong> {{ contract.end_date }}</p>
+            <p><strong>Status:</strong> {{ contract.status }}</p>
+            <p><strong>Leaser ID:</strong> {{ contract.leaser_id }}</p>
+            <p><strong>Taker ID:</strong> {{ contract.taker_id }}</p>
+            <p><strong>Item ID:</strong> {{ contract.item_id }}</p>
+        </div>
+
+        <a href="{{ url_for('contracts') }}" class="back-link">Back to Contracts</a>
+    </div>
+</body>
+</html>

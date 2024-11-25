@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Contacts & Debts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 900px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            color: #3498db;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section-header {
+            font-size: 1.8em;
+            margin-top: 30px;
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Contacts & Debts</h1>
+
+        <!-- Debts Section -->
+        <div>
+            <h2 class="section-header">My Debts</h2>
+            <table>
+                <tr>
+                    <th>Text</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Details</th>
+                </tr>
+                {% for one_contract in my_contracts %}
+                    <tr>
+                        <td>{{ one_contract.text }}</td>
+                        <td>{{ one_contract.start_date }}</td>
+                        <td>{{ one_contract.end_date }}</td>
+                        <td><a href="/contracts/{{ one_contract.id }}">Details</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Items in Use Section -->
+        <div>
+            <h2 class="section-header">My Items in Use</h2>
+            <table>
+                <tr>
+                    <th>Text</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Details</th>
+                </tr>
+                {% for one_contract in contracts_by_my_Items %}
+                    <tr>
+                        <td>{{ one_contract.text }}</td>
+                        <td>{{ one_contract.start_date }}</td>
+                        <td>{{ one_contract.end_date }}</td>
+                        <td><a href="/contracts/{{ one_contract.id }}">Details</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

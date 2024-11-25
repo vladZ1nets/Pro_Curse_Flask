@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Favorites</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .favorite-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 20px;
+        }
+
+        .favorite-item h3 {
+            font-size: 1.8em;
+            color: #2c3e50;
+        }
+
+        .favorite-item p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin: 10px 0;
+        }
+
+        .favorite-item a {
+            color: #3498db;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .favorite-item a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Favorites</h1>
+
+        {% for favorite in favorites %}
+            <div class="favorite-item">
+                <h3>{{ favorite.item.name }}</h3>
+                <p>{{ favorite.item.description }}</p>
+                <a href="{{ url_for('item_detail', item_id=favorite.item.id) }}">View Details</a>
+            </div>
+        {% endfor %}
+
+        <div class="back-link">
+            <a href="{{ url_for('profile') }}">Back to Profile</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+        }
+
+        td {
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        form input[type="date"], form input[type="submit"] {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            width: 200px;
+            max-width: 100%;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+
+        .actions {
+            text-align: center;
+        }
+
+        .actions a {
+            text-decoration: none;
+            color: #3498db;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Item Details</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price per Hour</th>
+                <th>Price per Day</th>
+                <th>Price per Week</th>
+                <th>Price per Month</th>
+                <th>Owner Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="{{ photo }}" alt="Item Photo" style="width: 100px; height: auto;"></td>
+                <td>{{ name }}</td>
+                <td>{{ description }}</td>
+                <td>{{ phour }}</td>
+                <td>{{ pday }}</td>
+                <td>{{ pweek }}</td>
+                <td>{{ pmonth }}</td>
+                <td>{{ owner_name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="actions">
+        {% if owner_id == current_user %}
+            <form action="/items/{{ item_id }}/delete" method="post">
+                <input type="submit" value="DELETE" class="delete-button">
+            </form>
+        {% else %}
+            <form action="/contacts" method="post">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" required>
+
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date" required>
+
+
+
+                <input type="hidden" name="item_id" value="{{ item_id }}">
+                <input type="submit" value="Contact Owner">
+            </form>
+        {% endif %}
+
+        <a href="{{ url_for('back_to_items') }}">Back to Items</a>
+    </div>
+</div>
+
+</body>
+</html>
+
