@@ -27,7 +27,7 @@ class Item(Base):
     __tablename__ = 'items'
     id = Column(Integer, primary_key=True, autoincrement=True)
     photo = Column(String(150))
-    name = Column(String(50), unique=True)
+    name = Column(String(50), unique=False)
     description = Column(String(250))
     price_hour = Column(REAL)
     price_day = Column(REAL)

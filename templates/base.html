@@ -1,0 +1,23 @@
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Main page</a>></li>
+            <li><a href="/search">Search page</a>></li>
+            <li><a href="/leasers">Leasers</a>></li>
+
+            {% if session.get('logged_in') %}
+                <li><a href="/items">Items</a>></li>
+                <li><a href="/contracts">Contracts</a>></li>
+                <li class="nav-right"><a href="/profile">My profile</a>></li>
+                <li><a href="/logout">Logout</a>></li>
+            {% else %}
+                <li class="nav-right"><a href="/login">Login</a>></li>
+                <li><a href="/register">Register</a>></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>

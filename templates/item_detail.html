@@ -131,18 +131,18 @@
                 <td>{{ pday }}</td>
                 <td>{{ pweek }}</td>
                 <td>{{ pmonth }}</td>
-                <td>{{ owner_name }}</td>
+                <td>{{ owner.full_name }}</td>
             </tr>
         </tbody>
     </table>
 
     <div class="actions">
-        {% if owner_id == current_user %}
+        {% if owner.id == current_user %}
             <form action="/items/{{ item_id }}/delete" method="post">
                 <input type="submit" value="DELETE" class="delete-button">
             </form>
         {% else %}
-            <form action="/contacts" method="post">
+            <form action="/contracts" method="post">
                 <label for="start_date">Start Date:</label>
                 <input type="date" name="start_date" id="start_date" required>
 
@@ -156,7 +156,7 @@
             </form>
         {% endif %}
 
-        <a href="{{ url_for('back_to_items') }}">Back to Items</a>
+        <a href="{{ url_for('items') }}">Back to Items</a>
     </div>
 </div>
 

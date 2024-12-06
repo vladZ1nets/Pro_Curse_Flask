@@ -12,12 +12,12 @@ from flask_migrate import Migrate
 import celery_tasks
 app = Flask(__name__)
 app.secret_key = 'hbiuvgtgiujhn'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+#db = SQLAlchemy(app)
+#migrate = Migrate(app, db)
 
 def login_required(func):
     @wraps(func)
@@ -36,7 +36,8 @@ def hello_world():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template('login.html')
+        error_text = request.args.get('error')
+        return render_template('login.html', error_text=error_text)
     elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -46,9 +47,9 @@ def login():
         if user_data:
             session['logged_in'] = user_data.login
             session['user_id'] = user_data.id
-            return f'Login successful, welcome {user_data.login}'
+            return redirect('/profile')
         else:
-            return 'Wrong username or password', 401
+            return redirect('/login?error=not_valide')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -107,10 +108,11 @@ def items():
             return redirect('/items')
 
 
-@app.route('/<int:item_id>/items/', methods=['GET'])
+@app.route('/items/<item_id>', methods=['GET'])
 @login_required
 def item_detail(item_id):
     item = db_session.execute(select(models.Item).filter_by(id=item_id)).scalar()
+    item_owner = db_session.execute(select(models.User).where(models.User.id == item.owner_id).scalar())
     return render_template('item_detail.html',
                            item_id=item_id,
                            photo=item.photo,
@@ -120,7 +122,7 @@ def item_detail(item_id):
                            pday=item.price_day,
                            pweek=item.price_week,
                            pmonth=item.price_month,
-                           owner_id=item.owner_id,
+                           owner=item_owner,
                            current_user=session.get('user_id'))
 
 
@@ -244,12 +246,12 @@ def contracts():
         contract_data = request.form.to_dict()
         new_contract = models.Contract(**contract_data)
         taker_id = session['user_id']
-        leaser = db_session.execute(select(models.Item).filter_by(id=contract_data['item_id'])).scalar()
+        leased_item = db_session.execute(select(models.Item).filter_by(id=contract_data['item_id'])).scalar()
         new_contract.taker_id = taker_id
-        new_contract.leaser_id = leaser.id
+        new_contract.leaser_id = leased_item.owner_id
         db_session.add(new_contract)
         db_session.commit()
-        celery_tasks.send_email(new_contract.id)
+        #celery_tasks.send_email(new_contract.id)
         return redirect('/contracts')
 
 
