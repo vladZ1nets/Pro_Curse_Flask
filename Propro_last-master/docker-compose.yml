@@ -1,0 +1,38 @@
+services:
+  web_app:
+    build: .
+    command:  python Homework_LAST_.py
+    ports:
+      - 5001:5001
+    environment:
+      - RABBITMQ_HOST=rabbit_host
+      - DB_HOST=postgres_host
+      - DB_USER=postgres
+      - DB_PASSWORD=example
+      - DB_NAME=postgres
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    hostname: rabbit_host
+
+  celery_worker:
+    build: .
+    command: celery -A celery_tasks worker --loglevel=INFO --purge --pool=solo
+    environment:
+      - RABBITMQ_HOST=rabbit_host
+      - DB_HOST=postgres_host
+      - DB_USER=postgres
+      - DB_PASSWORD=example
+      - DB_NAME=postgres
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
+    hostname: postgres_host
