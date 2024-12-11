@@ -35,6 +35,7 @@ class Item(Base):
     price_month = Column(REAL)
     owner_id = Column(Integer, ForeignKey('users.id'))
 
+    owner = relationship('User', backref='items')
     favorites = relationship('Favorite', back_populates='item')
 
     def __repr__(self):
