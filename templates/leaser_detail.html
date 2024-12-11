@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+{% block content %}
     <title>Leaser Details</title>
-    <style>
-        /* ваші стилі */
-    </style>
-</head>
-<body>
 
 <div class="container">
     <h1>Leaser Details: {{ leaser.name }}</h1>
@@ -47,9 +39,8 @@
 
     <a href="{{ url_for('leasers') }}">Back to Leasers</a>
 </div>
+{% endblock %}
 
-</body>
-</html>
 
 
 

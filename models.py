@@ -35,10 +35,12 @@ class Item(Base):
     price_month = Column(REAL)
     owner_id = Column(Integer, ForeignKey('users.id'))
 
+    owner = relationship('User', backref='items')
     favorites = relationship('Favorite', back_populates='item')
 
     def __repr__(self):
         return f'<Item {self.name}, {self.id}, Owner: {self.owner_id}>'
+
 
 class Contract(Base):
     __tablename__ = 'contracts'
@@ -50,6 +52,10 @@ class Contract(Base):
     leaser_id = Column(Integer, ForeignKey('users.id'))
     taker_id = Column(Integer, ForeignKey('users.id'))
     item_id = Column(Integer, ForeignKey('items.id'))
+
+    leaser = relationship('User', foreign_keys=[leaser_id])
+    taker = relationship('User', foreign_keys=[taker_id])
+    item = relationship('Item', backref='contracts')
 
     def __repr__(self):
         return f'<Contract {self.id}, Leaser: {self.leaser_id}, Taker: {self.taker_id}>'

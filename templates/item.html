@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+
+{% block content %}
     <title>Items</title>
     <style>
         body {
@@ -71,9 +69,12 @@
             color: red;
             font-weight: bold;
         }
+
+        .owner-info {
+            font-style: italic;
+            color: #555;
+        }
     </style>
-</head>
-<body>
 
 <div class="container">
     <h1>Items List</h1>
@@ -88,11 +89,20 @@
                     <p class="{% if one_item.available %}available{% else %}not-available{% endif %}">
                         {% if one_item.available %}Available{% else %}Not Available{% endif %}
                     </p>
+                    <!-- Displaying owner_id -->
+                    <p class="owner-info"><strong>Owner ID:</strong> {{ one_item.owner_id }}</p>
                 </div>
+
+                <!-- Перевірка на право видалення предмета -->
+                {% if one_item.owner_id == current_user %}
+                    <form action="/items/{{ one_item.id }}/delete" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
 </div>
+{% endblock %}
 
-</body>
-</html>
+

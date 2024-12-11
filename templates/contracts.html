@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+{% block content %}
     <title>My Contacts & Debts</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
@@ -75,8 +72,6 @@
         }
 
     </style>
-</head>
-<body>
     <div class="container">
         <h1>My Contacts & Debts</h1>
 
@@ -122,5 +117,4 @@
             </table>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

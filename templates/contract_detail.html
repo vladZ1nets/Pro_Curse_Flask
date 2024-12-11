@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+
+{% block content %}
     <title>Contract Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
@@ -61,8 +59,7 @@
             text-decoration: underline;
         }
     </style>
-</head>
-<body>
+
     <div class="container">
         <h1>Contract Details</h1>
 
@@ -72,12 +69,13 @@
             <p><strong>Start Date:</strong> {{ contract.start_date }}</p>
             <p><strong>End Date:</strong> {{ contract.end_date }}</p>
             <p><strong>Status:</strong> {{ contract.status }}</p>
-            <p><strong>Leaser ID:</strong> {{ contract.leaser_id }}</p>
+
+            <p><strong>Leaser:</strong> {{ contract.leaser.name }} (ID: {{ contract.leaser.id }})</p>
             <p><strong>Taker ID:</strong> {{ contract.taker_id }}</p>
             <p><strong>Item ID:</strong> {{ contract.item_id }}</p>
         </div>
 
         <a href="{{ url_for('contracts') }}" class="back-link">Back to Contracts</a>
     </div>
-</body>
-</html>
+{% endblock %}
+

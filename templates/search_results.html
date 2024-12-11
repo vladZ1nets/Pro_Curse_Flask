@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+{% block content %}
     <title>Search Results</title>
     <style>
         body {
@@ -59,8 +56,6 @@
             background-color: #45a049;
         }
     </style>
-</head>
-<body>
 
 <h2>Search Results</h2>
 
@@ -85,6 +80,4 @@
     <a href="/search">Back to Search</a>
     <a href="/">Back to Home</a>
 </div>
-
-</body>
-</html>
+{% endblock %}
