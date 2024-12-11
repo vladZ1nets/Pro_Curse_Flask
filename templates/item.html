@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
     <title>Items</title>
     <style>
@@ -68,6 +69,11 @@
             color: red;
             font-weight: bold;
         }
+
+        .owner-info {
+            font-style: italic;
+            color: #555;
+        }
     </style>
 
 <div class="container">
@@ -83,6 +89,8 @@
                     <p class="{% if one_item.available %}available{% else %}not-available{% endif %}">
                         {% if one_item.available %}Available{% else %}Not Available{% endif %}
                     </p>
+                    <!-- Displaying owner_id -->
+                    <p class="owner-info"><strong>Owner ID:</strong> {{ one_item.owner_id }}</p>
                 </div>
 
                 <!-- Перевірка на право видалення предмета -->
