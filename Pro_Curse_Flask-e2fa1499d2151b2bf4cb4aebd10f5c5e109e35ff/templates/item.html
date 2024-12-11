@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .item-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .item-list li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-list a {
+            font-size: 18px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .item-list a:hover {
+            text-decoration: underline;
+        }
+
+        .item-info {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        .price {
+            font-weight: bold;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .not-available {
+            color: red;
+            font-weight: bold;
+        }
+
+        .owner-info {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+
+<div class="container">
+    <h1>Items List</h1>
+
+    <ul class="item-list">
+        {% for one_item in items %}
+            <li>
+                <div class="item-info">
+                    <a href="/items/{{ one_item.id }}">{{ one_item.name }}</a>
+                    <p>{{ one_item["description"] }}</p>
+                    <p class="price">Price: ${{ one_item.price_hour }} per hour</p>
+                    <p class="{% if one_item.available %}available{% else %}not-available{% endif %}">
+                        {% if one_item.available %}Available{% else %}Not Available{% endif %}
+                    </p>
+                    <!-- Displaying owner_id -->
+                    <p class="owner-info"><strong>Owner ID:</strong> {{ one_item.owner_id }}</p>
+                </div>
+
+                <!-- Перевірка на право видалення предмета -->
+                {% if one_item.owner_id == current_user %}
+                    <form action="/items/{{ one_item.id }}/delete" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+

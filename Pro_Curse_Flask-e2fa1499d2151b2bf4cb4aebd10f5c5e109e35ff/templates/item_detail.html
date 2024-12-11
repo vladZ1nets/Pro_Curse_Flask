@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Item Details</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price per Hour</th>
+                <th>Price per Day</th>
+                <th>Price per Week</th>
+                <th>Price per Month</th>
+                <th>Owner ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="{{ photo }}" alt="Item Photo" style="width: 100px; height: auto;"></td>
+                <td>{{ name }}</td>
+                <td>{{ description }}</td>
+                <td>{{ phour }}</td>
+                <td>{{ pday }}</td>
+                <td>{{ pweek }}</td>
+                <td>{{ pmonth }}</td>
+                <td>{{ owner.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="actions">
+        {% if owner.id == current_user %}
+            <form action="/items/{{ item_id }}/delete" method="post">
+                <input type="submit" value="DELETE" class="delete-button">
+            </form>
+        {% else %}
+            <form action="/contracts" method="post">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" required>
+
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date" required>
+
+                <input type="hidden" name="item_id" value="{{ item_id }}">
+                <input type="submit" value="Contact Owner">
+            </form>
+        {% endif %}
+
+        <a href="{{ url_for('items') }}">Back to Items</a>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+

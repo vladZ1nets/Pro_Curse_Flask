@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 900px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            color: #3498db;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section-header {
+            font-size: 1.8em;
+            margin-top: 30px;
+            color: #2c3e50;
+        }
+
+    </style>
+    <div class="container">
+        <h1>Items</h1>
+
+        <!-- All Items Section -->
+        <div>
+            <h2 class="section-header">All Items</h2>
+            <table>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price per Hour</th>
+                    <th>Price per Day</th>
+                    <th>Price per Week</th>
+                    <th>Price per Month</th>
+                    <th>Available</th>
+                    <th>Owner ID</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td><img src="{{ item.photo }}" alt="Item Photo" style="width: 100px; height: auto;"></td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price_hour }}</td>
+                    <td>{{ item.price_day }}</td>
+                    <td>{{ item.price_week }}</td>
+                    <td>{{ item.price_month }}</td>
+                    <td>{{ 'Yes' if item.available else 'No' }}</td>
+                    <td>{{ item.owner_id }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- My Items in Use Section -->
+        <div>
+            <h2 class="section-header">My Items in Use</h2>
+            <table>
+                <tr>
+                    <th>Text</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Description</th>
+                    <th>Details</th>
+                </tr>
+                {% for item in my_items_in_use %}
+                <tr>
+                    <td>{{ item.contract_text }}</td>
+                    <td>{{ item.start_date }}</td>
+                    <td>{{ item.end_date }}</td>
+                    <td>{{ item.description }}</td>
+                    <td><a href="/contracts/{{ item.contract_id }}">Details</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
