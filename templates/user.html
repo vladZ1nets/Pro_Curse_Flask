@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
     <title>User Profile and Item Upload</title>
     <style>
@@ -61,10 +62,10 @@
 <div class="container">
     <!-- Profile Section -->
     <div class="form-section">
-        <h1>{{ fullname }}'s Profile</h1>
-        <form method="POST">
+        <h1>{{ user.full_name }}'s Profile</h1>
+        <form method="POST" action="/profile?_method=PUT">
             <label for="full_name">Full Name</label>
-            <input type="text" id="full_name" name="full_name" value="{{ fullname }}" required>
+            <input type="text" id="full_name" name="full_name" value="{{ user.full_name }}" required>
             <button type="submit">Update Profile</button>
         </form>
         <br>
@@ -103,6 +104,9 @@
 
             <label for="price_month">Price per Month:</label>
             <input type="text" name="price_month" id="price_month" required><br>
+
+            <!-- Hidden field for Owner ID -->
+            <input type="hidden" name="owner_id" value="{{ user.id }}"><br>
 
             <input type="submit" value="Submit Item">
         </form>
