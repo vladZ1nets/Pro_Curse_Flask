@@ -88,7 +88,8 @@ def items():
                 'name': item.name,
                 'available': True if contract is None else False,
                 'id': item.id,
-                'description': item.description
+                'description': item.description,
+                'owner_id': item.owner.id  # Використовуємо відношення owner
             })
 
         return render_template('item.html', items=render_items)
@@ -100,19 +101,43 @@ def items():
             init_db()
             current_user = db_session.execute(select(models.User).where(models.User.login == session['logged_in'])).scalar()
 
-            new_item = models.Item(**request.form)
-            new_item.owner = current_user.id
+            new_item = models.Item(
+                name=request.form.get('name'),
+                photo=request.form.get('photo'),
+                description=request.form.get('description'),
+                price_hour=request.form.get('price_hour'),
+                price_day=request.form.get('price_day'),
+                price_week=request.form.get('price_week'),
+                price_month=request.form.get('price_month'),
+                owner_id=current_user.id
+            )
             db_session.add(new_item)
             db_session.commit()
 
             return redirect('/items')
 
 
+
 @app.route('/items/<item_id>', methods=['GET'])
 @login_required
 def item_detail(item_id):
     item = db_session.execute(select(models.Item).filter_by(id=item_id)).scalar()
-    item_owner = db_session.execute(select(models.User).where(models.User.id == item.owner_id)).first()
+
+    if not item:
+        print("Item not found")
+        return "Item not found", 404
+
+    item_owner = db_session.execute(select(models.User).filter_by(id=item.owner_id)).scalar()
+
+    if not item_owner:
+        print("Owner not found")
+        return "Owner not found", 404
+
+    print(f"Item: {item}")
+    print(f"Owner: {item_owner}")
+    print(f"Owner ID: {item_owner.id}")
+    print(f"Owner Full Name: {item_owner.full_name}")
+
     return render_template('item_detail.html',
                            item_id=item_id,
                            photo=item.photo,
@@ -124,6 +149,7 @@ def item_detail(item_id):
                            pmonth=item.price_month,
                            owner=item_owner,
                            current_user=session.get('user_id'))
+
 
 @app.route('/items/<int:item_id>/delete', methods=['POST'])
 @login_required
@@ -143,21 +169,28 @@ def delete_item(item_id):
 @app.route('/me', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
 @login_required
 def profile():
+    user = db_session.execute(select(models.User).filter_by(id=session['user_id'])).scalar()
+
     if request.method == 'GET':
-        user = db_session.execute(select(models.User).filter_by(id=session['user_id'])).scalar()
-        return render_template('user.html', fullname=user.full_name)
-    elif request.method == 'PUT':
-        user = db_session.execute(select(models.User).filter_by(id=session['user_id'])).scalar()
-        user.full_name = request.form.get('full_name')
-        db_session.commit()
-        return redirect('/profile')
+        return render_template('user.html', user=user)
+
+    elif request.method == 'PUT' or request.method == 'PATCH':
+        full_name = request.form.get('full_name')
+
+        if full_name:
+            user.full_name = full_name
+            db_session.commit()
+            return redirect('/profile')
+        else:
+            return "Full name is required.", 400
+
     elif request.method == 'DELETE':
-        user = db_session.execute(select(models.User).filter_by(id=session['user_id'])).scalar()
         db_session.delete(user)
         db_session.commit()
         session.pop('user_id', None)
         session.pop('logged_in', None)
         return redirect('/login')
+
 
 
 @app.route('/profile/favorites', methods=['GET', 'POST', 'DELETE', 'PATCH'])
@@ -299,4 +332,5 @@ def set_task():
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5001)
+
 
